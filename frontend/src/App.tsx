@@ -111,7 +111,7 @@ export default function App() {
         {address && !poll && !pollError && <div className="callout">Loading poll from the contract…</div>}
 
         {poll && (
-          <PollBoard poll={poll} hasVoted={voted} voting={voting} connected={!!address} onVote={handleVote} />
+          <PollBoard poll={poll} hasVoted={voted} voting={voting} connected={!!address} onVote={handleVote} txHash={txHash} />
         )}
 
         {errorMessage && txStatus !== "error" && <div className="callout callout--error">{errorMessage}</div>}

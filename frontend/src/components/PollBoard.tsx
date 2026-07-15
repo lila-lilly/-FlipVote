@@ -6,10 +6,11 @@ interface PollBoardProps {
   hasVoted: boolean;
   voting: boolean;
   connected: boolean;
+  txHash?: string | null;
   onVote: (index: number) => void;
 }
 
-export function PollBoard({ poll, hasVoted, voting, connected, onVote }: PollBoardProps) {
+export function PollBoard({ poll, hasVoted, voting, connected, txHash, onVote }: PollBoardProps) {
   const total = poll.tallies.reduce((a, b) => a + b, 0);
 
   return (
@@ -45,6 +46,11 @@ export function PollBoard({ poll, hasVoted, voting, connected, onVote }: PollBoa
 
       <div className="board__footer">
         <span>{total} total {total === 1 ? "vote" : "votes"} recorded on testnet</span>
+        {hasVoted && txHash && (
+           <span style={{marginLeft: "1rem"}}>
+             · <a href={`https://stellar.expert/explorer/testnet/tx/${txHash}`} target="_blank" rel="noreferrer" style={{color: "var(--color-primary)"}}>Verify on-chain ↗</a>
+           </span>
+        )}
       </div>
     </div>
   );

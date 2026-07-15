@@ -26,7 +26,7 @@ The smart contract acts as the on-chain polling ledger of record and is deployed
 
 | Contract | Contract ID | Explorer |
 |---|---|---|
-| 📜 **FlipVote** | `CDRXV2ENQJYQHY3AIDBOM43WHIU2NRSI3LAJZ52IQTAH3JFKNGP66KYK` | [View on Stellar Expert](https://stellar.expert/explorer/testnet/contract/CDRXV2ENQJYQHY3AIDBOM43WHIU2NRSI3LAJZ52IQTAH3JFKNGP66KYK) |
+| 📜 **FlipVote** | `CCD7KBGL4NUFLWPFGJDYSYPFKIVHHI5I5A5YNABGTHEMPVC7HCUBA22U` | [View on Stellar Expert](https://stellar.expert/explorer/testnet/contract/CCD7KBGL4NUFLWPFGJDYSYPFKIVHHI5I5A5YNABGTHEMPVC7HCUBA22U) |
 
 **Network:** Stellar Testnet  
 **RPC URL:** `https://soroban-testnet.stellar.org`  
