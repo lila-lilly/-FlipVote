@@ -1,120 +1,87 @@
-# FlipVote
+<div align="center">
+  
+# 🔨 FlipVote - Live On-Chain Polling
 
-A live, on-chain poll rendered as a split-flap departure board. One
-question, up to six options, votes cast straight from a connected
-Stellar wallet, tallies that flip in real time as votes land — driven
-entirely by a Soroban contract's events.
+**A live-polling voting application built on Stellar & Soroban smart contracts.**  
+*FlipVote features a real-time split-flap voting board where the poll results update instantly via real-time event syncing.*
 
-Built for Level 2 (Orange-adjacent multi-wallet + smart-contract-deployment
-track): multi-wallet connect, a deployed testnet contract, frontend→contract
-calls, live event sync, and full transaction status tracking.
+### 🚀 [▶️ Live App](#) <!-- Replace with your actual live app URL -->
 
-## Why this project
+</div>
 
-Every requirement maps to something the board actually needs, not a
-bolted-on checklist item:
+<br />
 
-| Requirement | Where it lives |
-|---|---|
-| Multi-wallet integration | `frontend/src/lib/wallet.ts` — StellarWalletsKit configured with Freighter, xBull, Albedo, Lobstr, Hana |
-| 3+ error types handled | `frontend/src/lib/errors.ts` — `WalletNotFoundError`, `UserRejectedError`, `InsufficientBalanceError`, `AlreadyVotedError` |
-| Contract deployed on testnet | `contracts/flipvote/` + `scripts/deploy.sh` |
-| Contract called from frontend | `frontend/src/lib/contract.ts` — `vote`, `get_poll`, `get_results`, `has_voted` |
-| Transaction status visible | `frontend/src/components/TxStatusBanner.tsx` — building → simulating → pending → success/error |
-| Real-time event sync | `subscribeToVoteEvents` polls Soroban RPC `getEvents` for `vote` topics and flips tallies live for every connected viewer |
+## ✨ Key Features
 
-## Project structure
+1. **Multi-Wallet Integration:** Supports Freighter, xBull, Albedo, Lobstr, and Hana via StellarWalletsKit.
+2. **Real-time Event Sync:** Polls the Soroban RPC; every viewer's board updates the instant a new vote lands.
+3. **Transaction Status Tracking:** Visual pipeline moving from building → simulating → pending → success/error.
+4. **Comprehensive Error Handling:** Gracefully handles wallet connection and contract errors.
 
-```
-flipvote/
-├── contracts/
-│   └── flipvote/          # Soroban contract (Rust)
-│       ├── src/lib.rs
-│       └── src/test.rs
-├── frontend/               # React + Vite + TypeScript
-│   └── src/
-│       ├── lib/            # wallet.ts, contract.ts, errors.ts
-│       └── components/     # FlapDigit, FlapRow, PollBoard, ConnectWallet, TxStatusBanner
-└── scripts/
-    └── deploy.sh           # build → optimize → deploy → initialize
-```
+---
 
-## Contract
+## 🌐 Smart Contract Deployment (Stellar Testnet)
 
-`contracts/flipvote/src/lib.rs` exposes:
+The smart contract acts as the on-chain polling ledger of record and is deployed to the **Stellar Testnet**.
 
-- `initialize(admin, question, options)` — one-time setup, called by you (the admin) at deploy time.
-- `vote(voter, option_index)` — requires the voter's signature; rejects double votes and out-of-range indices; emits a `vote` event with the fresh tally vector.
-- `get_poll()` / `get_results()` — read the question, options, and current tallies.
-- `has_voted(voter)` — lets the frontend decide whether to show the ballot or the results view.
-- `close_poll(admin)` — admin-only, freezes further votes.
+| Contract | Contract ID | Explorer |
+|---|---|---|
+| 📜 **FlipVote** | `CDRXV2ENQJYQHY3AIDBOM43WHIU2NRSI3LAJZ52IQTAH3JFKNGP66KYK` | [View on Stellar Expert](https://stellar.expert/explorer/testnet/contract/CDRXV2ENQJYQHY3AIDBOM43WHIU2NRSI3LAJZ52IQTAH3JFKNGP66KYK) |
 
-Run the tests:
+**Network:** Stellar Testnet  
+**RPC URL:** `https://soroban-testnet.stellar.org`  
+**Horizon URL:** `https://horizon-testnet.stellar.org`  
 
-```bash
-cd contracts/flipvote
-cargo test
-```
+### 🔗 Sample On-Chain Transactions
 
-## Deploying the contract yourself
+| Action | Transaction Hash | Explorer |
+|---|---|---|
+| 💸 Contract Deployed | `c95c1cb4684c0aeb0a7aee3b197bfaabecb04b0fb651f2eee1380b4a8ff7c21a` | [View](https://stellar.expert/explorer/testnet/tx/c95c1cb4684c0aeb0a7aee3b197bfaabecb04b0fb651f2eee1380b4a8ff7c21a) |
 
-You'll need [stellar-cli](https://developers.stellar.org/docs/tools/developer-tools/cli) and a funded testnet identity.
+---
 
-```bash
-stellar keys generate admin --network testnet --fund
-./scripts/deploy.sh "What's your favorite Stellar wallet?" "Freighter" "xBull" "Lobstr"
-```
+## 📸 Application Showcase
 
-The script prints the deployed contract ID — put it in `frontend/.env` as `VITE_CONTRACT_ID`.
+*(Add your screenshots here)*
+### 1. Product UI (Placing a Vote)
 
-> Note: the contract address, transaction hash, and demo link below are
-> placeholders. Deploy with the script above and fill these in with your
-> own values before submitting — these can't be generated on your behalf,
-> since they only exist once you actually sign and broadcast on testnet.
+![Product UI](images/product_ui.png)
 
-**Deployed contract address:** `PASTE_YOUR_CONTRACT_ID_HERE`
-**Transaction hash of a vote call:** `PASTE_A_TX_HASH_HERE` (verify at `https://stellar.expert/explorer/testnet/tx/<hash>`)
-**Live demo:** `PASTE_YOUR_VERCEL_OR_NETLIFY_URL_HERE`
+### 2. Wallet Connection Options
 
-## Running the frontend locally
+![Wallet Options](images/wallet_options.png)
 
+### 3. Verified Vote On-Chain
+
+![Verified Vote](images/verified_vote.png)
+
+---
+
+## 🏗️ Architecture
+
+This project is split into three main components:
+
+1. **Smart Contract (`contracts/flipvote/`)**
+   - Written in Rust for Soroban.
+   - Exposes `initialize`, `vote`, `close_poll`, and `get_poll`.
+2. **Frontend Application (`frontend/`)**
+   - React + Vite Single Page Application.
+   - Integrates with `@creit.tech/stellar-wallets-kit`.
+3. **Deployment Scripts (`scripts/`)**
+   - Automates building, optimizing, deploying, and initializing the contract.
+
+---
+
+## 🚀 Quick Start (Local Development)
+
+### Prerequisites
+- Node.js (v18+)
+- Rust + `wasm32v1-none` target
+- Stellar CLI (`cargo install --locked stellar-cli`)
+
+### Running the Frontend
 ```bash
 cd frontend
 npm install
-cp .env.example .env   # then fill in VITE_CONTRACT_ID
 npm run dev
 ```
-
-Open the printed local URL, connect any supported wallet (make sure it's
-set to **Testnet**), and vote. Open the same URL in a second browser/tab
-with a different wallet to watch the board flip in real time as the
-other vote lands.
-
-## Error handling
-
-| Scenario | How it's surfaced |
-|---|---|
-| Wallet not installed | `WalletNotFoundError` from the connect flow — shown inline, doesn't crash the app |
-| Wallet rejects the signing prompt | `UserRejectedError` — caught around `signXdr`, shown in the status banner |
-| Insufficient XLM for fees | `InsufficientBalanceError` — checked via a Horizon balance lookup *before* building the transaction |
-| Already voted | `AlreadyVotedError` — the contract itself rejects a second vote from the same address; the frontend also pre-checks `has_voted` to disable the button |
-
-## Transaction status tracking
-
-Every vote goes through visible states in `TxStatusBanner`:
-`building` → `simulating` → `pending` (submitted, awaiting confirmation) →
-`success` (with a Stellar Expert link) or `error` (with the specific
-reason).
-
-## Deploying the frontend
-
-Any static host works (Vercel, Netlify, Cloudflare Pages). Build command
-`npm run build`, output directory `dist/`, and set `VITE_CONTRACT_ID` (and
-optionally the RPC/Horizon URLs) as environment variables in the host's
-dashboard.
-
-## Screenshot
-
-Add a screenshot of the wallet-select modal here before submitting:
-
-`![wallet options](./docs/wallet-options.png)`
