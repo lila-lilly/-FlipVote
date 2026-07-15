@@ -5,7 +5,7 @@
 **A live-polling voting application built on Stellar & Soroban smart contracts.**  
 *FlipVote features a real-time split-flap voting board where the poll results update instantly via real-time event syncing.*
 
-### 🚀 [▶️ Live App](#) <!-- Replace with your actual live app URL -->
+### 🚀 [▶️ Live App](https://flip-vote.vercel.app/)
 
 </div>
 
