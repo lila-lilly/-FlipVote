@@ -1,9 +1,9 @@
 <div align="center">
   
-# 🔨 FlipVote - Live On-Chain Polling
+# 🗳️ FlipVote — Live On-Chain Polling
 
 **A live-polling voting application built on Stellar & Soroban smart contracts.**  
-*FlipVote features a real-time split-flap voting board where the poll results update instantly via real-time event syncing.*
+*FlipVote features a real-time split-flap voting board where poll results update instantly for every viewer via Soroban event syncing. Every vote is a real on-chain transaction — fully verifiable on Stellar Expert.*
 
 ### 🚀 [▶️ Live App](https://flip-vote.vercel.app/)
 
@@ -14,9 +14,33 @@
 ## ✨ Key Features
 
 1. **Multi-Wallet Integration:** Supports Freighter, xBull, Albedo, Lobstr, and Hana via StellarWalletsKit.
-2. **Real-time Event Sync:** Polls the Soroban RPC; every viewer's board updates the instant a new vote lands.
+2. **Real-time Event Sync:** Polls the Soroban RPC; every viewer's board updates the instant a new vote lands on-chain.
 3. **Transaction Status Tracking:** Visual pipeline moving from building → simulating → pending → success/error.
-4. **Comprehensive Error Handling:** Gracefully handles wallet connection and contract errors.
+4. **On-Chain Verification:** After voting, a direct link to Stellar Expert lets users verify their transaction hash instantly.
+5. **Comprehensive Error Handling:** Gracefully handles `WalletNotFoundError`, `UserRejectedError`, `InsufficientBalanceError`, and `AlreadyVotedError`.
+
+---
+
+## 📸 Application Showcase
+
+### 1. 🗳️ Live Voting Board — Vote Cast & Confirmed
+*The split-flap board shows live tally counts across all 4 options. After voting, the "Verify on-chain ↗" link appears so users can confirm their vote on Stellar Expert.*
+
+![Vote Casted — Live Polling Board](images/vote%20casted.png)
+
+---
+
+### 2. 🔗 On-Chain Transaction Verified on Stellar Expert
+*Every vote is a real Soroban smart contract invocation. Users can inspect the full transaction detail — source account, fee, ledger number, and the exact `vote()` call — on Stellar Expert.*
+
+![On-Chain Transaction Verified](images/onchian%20verified.png)
+
+---
+
+### 3. 👛 Multi-Wallet Connect Modal
+*FlipVote integrates 5 Stellar wallets via StellarWalletsKit. Users can connect with Freighter, xBull, Albedo, Hana, or LOBSTR to cast their vote.*
+
+![Wallet Connection Options](images/wallet%20options.png)
 
 ---
 
@@ -36,24 +60,9 @@ The smart contract acts as the on-chain polling ledger of record and is deployed
 
 | Action | Transaction Hash | Explorer |
 |---|---|---|
-| 💸 Contract Deployed | `c95c1cb4684c0aeb0a7aee3b197bfaabecb04b0fb651f2eee1380b4a8ff7c21a` | [View](https://stellar.expert/explorer/testnet/tx/c95c1cb4684c0aeb0a7aee3b197bfaabecb04b0fb651f2eee1380b4a8ff7c21a) |
-
----
-
-## 📸 Application Showcase
-
-*(Add your screenshots here)*
-### 1. Product UI (Placing a Vote)
-
-![Product UI](images/product_ui.png)
-
-### 2. Wallet Connection Options
-
-![Wallet Options](images/wallet_options.png)
-
-### 3. Verified Vote On-Chain
-
-![Verified Vote](images/verified_vote.png)
+| 📦 Contract Deployed | `9ed79c919750b096c98c68f86d9b585fa8fc8e5d78a8e1704065ed523becb2a7` | [View](https://stellar.expert/explorer/testnet/tx/9ed79c919750b096c98c68f86d9b585fa8fc8e5d78a8e1704065ed523becb2a7) |
+| 🗳️ Poll Initialized | `19c10008dfc965e5272e927d9b222c5b2554391e79a1228846a51fbb4684d178` | [View](https://stellar.expert/explorer/testnet/tx/19c10008dfc965e5272e927d9b222c5b2554391e79a1228846a51fbb4684d178) |
+| ✅ Sample Vote Cast | `61a0555fe2c97229845472dc45a1ca622d7cb19bb211a6e02d92f4474385bdf1` | [View](https://stellar.expert/explorer/testnet/tx/61a0555fe2c97229845472dc45a1ca622d7cb19bb211a6e02d92f4474385bdf1) |
 
 ---
 
@@ -63,10 +72,11 @@ This project is split into three main components:
 
 1. **Smart Contract (`contracts/flipvote/`)**
    - Written in Rust for Soroban.
-   - Exposes `initialize`, `vote`, `close_poll`, and `get_poll`.
+   - Exposes `initialize`, `vote`, `close_poll`, `get_poll`, and `has_voted`.
 2. **Frontend Application (`frontend/`)**
    - React + Vite Single Page Application.
-   - Integrates with `@creit.tech/stellar-wallets-kit`.
+   - Integrates with `@creit.tech/stellar-wallets-kit` for multi-wallet support.
+   - Uses `@stellar/stellar-sdk` v14 (Protocol 22 compatible).
 3. **Deployment Scripts (`scripts/`)**
    - Automates building, optimizing, deploying, and initializing the contract.
 
